@@ -1,0 +1,4 @@
+# Ignorar todos os mapas gerados
+maps/
+*.md
+!README.md
