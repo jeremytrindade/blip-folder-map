@@ -1,6 +1,20 @@
-📄 README.md
-Markdown
 # 📂 Blip-Folder-Map
+
+```powershell
+# O comando oficial e estruturado
+function blip-map { 
+    python "D:\jetblip\github\blip-folder-names\map_folders.py" --path $args[0] 
+}
+
+# Atalho rápido para máxima eficiência
+Set-Alias blipmap blip-map
+
+```
+
+THEN!!!
+
+blip-map D:\ollama\models\manifests\registry.ollama.ai\library
+
 
 Uma utilitária leve e sem dependências em Python para gerar mapas organizados de diretórios em formato Markdown. Esta ferramenta faz parte do **Ecossistema Jetblip (v5)**.
 
@@ -10,93 +24,75 @@ O `Blip-Folder-Map` foi criado para programadores que precisam de documentar arq
 
 ## ✨ Funcionalidades
 
-- **Zero Dependências**: Utiliza apenas bibliotecas padrão do Python (`os`, `datetime`, `argparse`).
-- **Mapeamento Inteligente**: Ignora automaticamente pastas ocultas (como `.git`) e ficheiros, focando-se apenas na estrutura de diretórios.
-- **Timestamping**: Gera nomes de ficheiros únicos (ex: `folders-2026-05-11-16-37.md`).
-- **Auto-Organização**: Cria automaticamente uma pasta `maps/` para manter a raiz do teu repositório limpa.
+* **Zero Dependências**: Utiliza apenas bibliotecas padrão do Python (`os`, `datetime`, `argparse`, `re`).
+* **Nomenclatura Inteligente (Hybrid Context-Aware)**: O script adapta o nome do ficheiro automaticamente para garantir legibilidade:
+* **Caminhos Simples**: Usa o padrão *Kebab-case* (ex: `d-ollama-models`).
+* **Caminhos Complexos**: Se detetar hífens no caminho (ex: `my-projects`), muda para o estilo *Dot-Namespace* (ex: `D.my-projects.app`) para evitar confusão.
+* **Tratamento de Conflitos**: Se existirem pontos e hífens em simultâneo, aplica uma lógica de prioridade para manter a hierarquia clara.
+
+
+* **Mapeamento Limpo**: Ignora automaticamente pastas ocultas (como `.git`) e foca-se apenas na estrutura de diretórios.
+* **Auto-Organização**: Cria automaticamente uma pasta `maps/` para manter a raiz do teu repositório organizada.
 
 ## 🛠️ Instalação
 
 1. **Clonar o repositório**:
-   ```bash
-   git clone [https://github.com/jeremytrindade/blip-folder-map.git](https://github.com/jeremytrindade/blip-folder-map.git)
-   cd blip-folder-map
-Garantir que o Python está instalado:
-Recomendado Python 3.6+.
+```powershell
+git clone https://github.com/jeremytrindade/blip-folder-map.git
+cd blip-folder-map
 
-📖 Como Usar
-1. Chamada Direta (Caminho Absoluto)
-Esta é a melhor forma se estiveres num terminal qualquer e não quiseres navegar até à pasta do script. Basta indicares o caminho completo do ficheiro .py e o --path do que queres mapear.
+```
 
-No PowerShell:
 
-PowerShell
-python "D:\jetblip\github\blip-folder-names\map_folders.py" --path "D:\jetblip\github"
-2. Chamada por Alias (A forma "Pro")
-Se queres que isto seja um comando permanente que possas usar como se fosse um programa do Windows, podes criar um alias no teu perfil do PowerShell:
+2. **Requisitos**:
+* Python 3.6+ instalado.
 
-No PowerShell:
 
-PowerShell
-# Cria o comando 'blip-map'
-function blip-map { python "D:\jetblip\github\blip-folder-names\map_folders.py" --path $args[0] }
-Agora, podes simplesmente escrever de qualquer lugar:
 
-PowerShell
-blip-map D:\aijetlabs\github
-📁 Exemplo de Output
-Os ficheiros são guardados na subpasta maps/ com este formato:
+## 📖 Como Usar
 
-📂 Folder Map: D:\jetblip\github
-Generated on: 2026-05-11 16:37:00
+### 1. Chamada por Alias (Recomendado)
 
-Total folders found: 24
+Para usar o comando `blip-map` de qualquer lugar no teu PC, adiciona estas funções ao teu perfil do PowerShell (`$PROFILE`):
 
-blip-ask
+```powershell
+# O comando oficial e estruturado
+function blip-map { 
+    python "D:\jetblip\github\blip-folder-names\map_folders.py" --path $args[0] 
+}
 
-blip-brain
+# Atalho rápido para máxima eficiência
+Set-Alias blipmap blip-map
 
-jet-naming-pro
+```
 
-⚖️ Licença
+### 2. Exemplos de Execução Autómata
+
+O script decide o melhor nome de ficheiro sozinho:
+
+| Comando | Lógica Aplicada | Exemplo de Nome Gerado |
+| --- | --- | --- |
+| `blip-map D:\ollama\models` | Kebab Style | `d-ollama-models__20260511-2230.md` |
+| `blip-map D:\my-projects\app` | Dot Style | `D.my-projects.app__20260511-2230.md` |
+| `blip-map C:\v1.5\test-files` | Priority Style | `C.v1..5.test-files__20260511-2230.md` |
+
+## 📁 Estrutura do Output
+
+Os ficheiros são guardados na subpasta `maps/` com este formato:
+
+```markdown
+# 📂 Folder Map: D:\target\path
+*Generated on: 2026-05-11 22:30:15*
+
+Total folders found: 5
+
+* `folder-one`
+* `folder-two`
+
+```
+
+## ⚖️ Licença
+
 Este projeto é open-source e está disponível sob a licença MIT.
 
-Mantido pela equipa Jetblip.
-
-
-
-🛠️ Passo 1: Verificar e Criar o Ficheiro
-Garante que na pasta D:\jetblip\github\blip-folder-names\ existe o ficheiro com o nome exato README.md. Se não existir, cria-o e cola este conteúdo:
-
-Markdown
-# 📂 Blip-Folder-Map
-
-Uma utilitária leve e sem dependências em Python para gerar mapas organizados de diretórios em formato Markdown. Esta ferramenta faz parte do **Ecossistema Jetblip (v5)**.
-
-## 🚀 Visão Geral
-O `Blip-Folder-Map` gera um ficheiro `.md` ordenado com todas as pastas dentro de um caminho alvo, guardando-os numa pasta `maps/` local.
-
-## 🛠️ Como Usar
-### 1. Chamada Direta
-```powershell
-python "D:\jetblip\github\blip-folder-names\map_folders.py" --path "D:\jetblip\github"
-2. Chamada por Alias
-PowerShell
-function blip-map { python "D:\jetblip\github\blip-folder-names\map_folders.py" --path $args[0] }
-blip-map D:\aijetlabs\github
-⚖️ Licença
-MIT
-
-
-### 🛠️ Passo 2: Forçar o Envio (TCC2)
-No terminal da pasta `blip-folder-names`, corre estes comandos para garantir que o Git "vê" o ficheiro e o envia:
-
-```powershell
-# 1. Adicionar tudo (garante que o README entra)
-git add README.md LICENSE .gitignore map_folders.py
-
-# 2. Fazer o commit
-git commit -m "docs: add README and finalize repository structure"
-
-# 3. Enviar para o GitHub
-git push origin main
+Mantido pela equipa **Jetblip**.
