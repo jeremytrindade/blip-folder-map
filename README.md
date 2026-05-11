@@ -62,3 +62,41 @@ jet-naming-pro
 Este projeto é open-source e está disponível sob a licença MIT.
 
 Mantido pela equipa Jetblip.
+
+
+
+🛠️ Passo 1: Verificar e Criar o Ficheiro
+Garante que na pasta D:\jetblip\github\blip-folder-names\ existe o ficheiro com o nome exato README.md. Se não existir, cria-o e cola este conteúdo:
+
+Markdown
+# 📂 Blip-Folder-Map
+
+Uma utilitária leve e sem dependências em Python para gerar mapas organizados de diretórios em formato Markdown. Esta ferramenta faz parte do **Ecossistema Jetblip (v5)**.
+
+## 🚀 Visão Geral
+O `Blip-Folder-Map` gera um ficheiro `.md` ordenado com todas as pastas dentro de um caminho alvo, guardando-os numa pasta `maps/` local.
+
+## 🛠️ Como Usar
+### 1. Chamada Direta
+```powershell
+python "D:\jetblip\github\blip-folder-names\map_folders.py" --path "D:\jetblip\github"
+2. Chamada por Alias
+PowerShell
+function blip-map { python "D:\jetblip\github\blip-folder-names\map_folders.py" --path $args[0] }
+blip-map D:\aijetlabs\github
+⚖️ Licença
+MIT
+
+
+### 🛠️ Passo 2: Forçar o Envio (TCC2)
+No terminal da pasta `blip-folder-names`, corre estes comandos para garantir que o Git "vê" o ficheiro e o envia:
+
+```powershell
+# 1. Adicionar tudo (garante que o README entra)
+git add README.md LICENSE .gitignore map_folders.py
+
+# 2. Fazer o commit
+git commit -m "docs: add README and finalize repository structure"
+
+# 3. Enviar para o GitHub
+git push origin main
