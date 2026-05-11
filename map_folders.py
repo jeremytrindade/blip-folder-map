@@ -11,15 +11,21 @@ def generate_folder_map():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     target_dir = os.path.abspath(args.path)
     
+    # Extrair o nome da pasta de origem (ex: "github" em vez do caminho completo)
+    origin_name = os.path.basename(target_dir)
+    # Se o path terminar em barra ou for raiz, o basename pode ser vazio
+    if not origin_name:
+        origin_name = "root"
+
     # 2. Criar pasta 'maps' se não existir
     maps_dir = os.path.join(script_dir, "maps")
     if not os.path.exists(maps_dir):
         os.makedirs(maps_dir)
         print(f"📁 Pasta criada: {maps_dir}")
 
-    # 3. Nome do ficheiro
-    timestamp = datetime.now().strftime("%Y-%m-%d-%H-%M")
-    filename = f"folders-{timestamp}.md"
+    # 3. Nome do ficheiro: originDirectory-YYYYMMDD-HHMMSS
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    filename = f"{origin_name}-{timestamp}.md"
     save_path = os.path.join(maps_dir, filename)
 
     try:
