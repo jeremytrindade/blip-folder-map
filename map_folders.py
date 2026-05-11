@@ -6,17 +6,28 @@ import re
 def generate_folder_map():
     parser = argparse.ArgumentParser(description="Mapeia pastas de um diretório alvo.")
     parser.add_argument("--path", type=str, default="..", help="Caminho alvo para listar pastas")
+    parser.add_argument("--style", type=str, choices=['kebab', 'dot'], default='kebab', 
+                        help="Estilo do nome do ficheiro: 'kebab' (padrão) ou 'dot'")
     args = parser.parse_args()
 
     # 1. Definir pastas
     script_dir = os.path.dirname(os.path.abspath(__file__))
     target_dir = os.path.abspath(args.path)
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     
-    # 2. Criar identificador único baseado no caminho completo
-    # Substitui caracteres não alfanuméricos (como :, \, /) por underscores
-    path_id = re.sub(r'[^a-zA-Z0-9]', '_', target_dir)
-    # Remove underscores duplicados para ficar mais limpo (ex: __ em vez de _)
-    path_id = re.sub(r'_+', '_', path_id).strip('_')
+    # 2. Lógica de Estilização
+    if args.style == 'dot':
+        # Estilo Dot: D.Ollama.Models__20260511-222730.md
+        clean_path = target_dir.replace(":\\", ".").replace(":/", ".").replace("\\", ".").replace("/", ".")
+        path_id = re.sub(r'[^a-zA-Z0-9.-]', '', clean_path)
+        path_id = re.sub(r'\.+', '.', path_id).strip('.')
+        filename = f"{path_id}__{timestamp}.md"
+    else:
+        # Estilo Kebab (Industry Standard): d-ollama-models--20260511-222730.md
+        clean_path = target_dir.lower().replace(":\\", "-").replace(":/", "-").replace("\\", "-").replace("/", "-")
+        path_id = re.sub(r'[^a-z0-9-]', '', clean_path)
+        path_id = re.sub(r'-+', '-', path_id).strip('-')
+        filename = f"{path_id}--{timestamp}.md"
 
     # 3. Criar pasta 'maps' se não existir
     maps_dir = os.path.join(script_dir, "maps")
@@ -24,9 +35,6 @@ def generate_folder_map():
         os.makedirs(maps_dir)
         print(f"📁 Pasta criada: {maps_dir}")
 
-    # 4. Nome do ficheiro: path_identifier-YYYYMMDD-HHMMSS
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    filename = f"{path_id}-{timestamp}.md"
     save_path = os.path.join(maps_dir, filename)
 
     try:
